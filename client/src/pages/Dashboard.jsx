@@ -13,7 +13,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchResumes = async () => {
       try {
-        const response = await axios.get("http://localhost:5002/resumes");
+        const response = await axios.get(
+          "https://ai-resume-builder-copg.onrender.com/resumes"
+        );
         setResumes(response.data);
       } catch (error) {
         console.error("Error fetching resumes:", error);
@@ -34,7 +36,9 @@ const Dashboard = () => {
 
   const handleDeleteClick = async (resumeId) => {
     try {
-      await axios.delete(`http://localhost:5002/resumes/${resumeId}`);
+      await axios.delete(
+        `https://ai-resume-builder-copg.onrender.com/resumes/${resumeId}`
+      );
       setResumes(resumes.filter((resume) => resume._id !== resumeId));
     } catch (error) {
       console.error("Error deleting resume:", error);

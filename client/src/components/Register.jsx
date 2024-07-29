@@ -24,7 +24,7 @@ export const Register = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5002/api/signup",
+        "https://ai-resume-builder-copg.onrender.com/api/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
