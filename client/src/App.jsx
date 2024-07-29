@@ -1,5 +1,5 @@
 import MainRoutes from "./components/MainRoutes";
-import Navbar from "./pages/Navbar";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (

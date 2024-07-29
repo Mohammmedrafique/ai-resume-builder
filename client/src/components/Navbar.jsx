@@ -25,15 +25,13 @@ export const Navbar = ({ toggleSidebar }) => {
               <div className="flex items-center hover:none absolute lg:relative top-0 right-3">
                 <img src="aresume.gif" alt="" className="w-24" />
                 <span className="font-bold text-xl text-black hidden md:block">
-                 𝓑𝓾𝓲𝓵𝓭𝓮𝓻
+                  𝓑𝓾𝓲𝓵𝓭𝓮𝓻
                 </span>
               </div>
             ) : (
               <Link to="/" className="flex items-center hover:none">
-                <img src="nlogo.png" alt="" className="w-14" />
-                <span className="font-bold text-xl text-black">
-                 𝓡𝓮𝓼𝓾𝓶𝓮 𝓑𝓾𝓲𝓵𝓭𝓮𝓻
-                </span>
+                <img src="aresume.gif" alt="" className="w-24" />
+                <span className="font-bold text-xl text-black">𝓑𝓾𝓲𝓵𝓭𝓮𝓻</span>
               </Link>
             )}
           </div>
@@ -62,9 +60,6 @@ export const Navbar = ({ toggleSidebar }) => {
               </Link>
             )}
           </div>
-          {/* <div className="md:hidden absolute">
-            <MenuButton onClick={toggleSidebar} />
-          </div> */}
         </div>
       </div>
     </nav>

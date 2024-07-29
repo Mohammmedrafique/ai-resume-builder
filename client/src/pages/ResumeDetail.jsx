@@ -1,6 +1,12 @@
-import React from "react";
-
 const ResumeDetail = ({ resume, onClose }) => {
+  // Function to generate a summary from work experience
+  const generateSummary = (workExperience) => {
+    const latestJob = workExperience[0];
+    return `Experienced ${latestJob.position} with a background in ${
+      latestJob.company
+    }. Skilled in ${resume.skills.join(", ")}.`;
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
       <button
@@ -18,7 +24,7 @@ const ResumeDetail = ({ resume, onClose }) => {
           {resume.personalInfo?.phone || "Phone Not Available"}
         </p>
         <p className="text-gray-600">
-          {resume.personalInfo?.location || "Location Not Available"} |
+          {resume.personalInfo?.address || "Location Not Available"} |
           <a
             href={resume.personalInfo?.linkedin || "#"}
             className="text-blue-500 hover:underline"
@@ -28,34 +34,20 @@ const ResumeDetail = ({ resume, onClose }) => {
         </p>
       </header>
 
+      {/* Summary */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
           Summary
         </h2>
         <p className="text-gray-700">
-          {resume.summary || "Summary Not Available"}
+          {generateSummary(resume.workExperience)}
         </p>
       </section>
 
+      {/* Work Experience */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
-          Key Skills
-        </h2>
-        <p className="text-gray-700">{(resume.keySkills || []).join(" • ")}</p>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
-          Technical Skills
-        </h2>
-        <p className="text-gray-700">
-          {(resume.technicalSkills || []).join(", ")}
-        </p>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
-          Professional Experience
+          Work Experience
         </h2>
         {resume.workExperience?.map((exp, idx) => (
           <div key={idx} className="mb-6">
@@ -74,6 +66,7 @@ const ResumeDetail = ({ resume, onClose }) => {
         ))}
       </section>
 
+      {/* Education */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
           Education
@@ -92,15 +85,39 @@ const ResumeDetail = ({ resume, onClose }) => {
         ))}
       </section>
 
+      {/* Skills */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
+          Skills
+        </h2>
+        <p className="text-gray-700">{(resume.skills || []).join(", ")}</p>
+      </section>
+
+      {/* Certifications */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
           Certifications
         </h2>
         <ul className="list-disc list-inside text-gray-700">
           {(resume.certifications || []).map((cert, idx) => (
-            <li key={idx}>{cert || "Certification Not Available"}</li>
+            <li key={idx}>{cert.name || "Certification Not Available"}</li>
           ))}
         </ul>
+      </section>
+
+      {/* Projects */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">
+          Projects
+        </h2>
+        {resume.projects?.map((proj, idx) => (
+          <div key={idx} className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-800">
+              {proj.name || "Project Not Available"}
+            </h3>
+            <p className="text-gray-600">{proj.date || "Date Not Available"}</p>
+          </div>
+        ))}
       </section>
     </div>
   );
