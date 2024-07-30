@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LogIn, LogOut } from "lucide-react";
+import { LayoutDashboard, LogIn, LogOut } from "lucide-react";
 import { toast } from "react-toastify";
 
 export const Navbar = ({ toggleSidebar }) => {
@@ -36,20 +36,23 @@ export const Navbar = ({ toggleSidebar }) => {
             )}
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            {isLoggedIn && (
-              <>
-                <img src="logomen.png" alt="" className="w-8" />
-                <span className="font-bold text-xl text-black">{username}</span>
-              </>
-            )}
             {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className="text-black hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium flex items-center transition duration-150 ease-in-out"
-              >
-                <LogOut className="h-5 w-5 mr-1" />
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-black hover:animate-pulse hover:text-black px-3 py-2 rounded-md text-sm font-medium flex items-center transition duration-150 ease-in-out"
+                >
+                  <LayoutDashboard className="h-5 w-5 mr-1" />
+                  <span className="ml-1">Dasboard</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-black hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium flex items-center transition duration-150 ease-in-out"
+                >
+                  <LogOut className="h-5 w-5 mr-1" />
+                  Logout
+                </button>
+              </>
             ) : (
               <Link
                 to="/"
@@ -58,6 +61,12 @@ export const Navbar = ({ toggleSidebar }) => {
                 <LogIn className="h-5 w-5 mr-1" />
                 <span className="ml-1">Login</span>
               </Link>
+            )}
+            {isLoggedIn && (
+              <>
+                <img src="logomen.png" alt="" className="w-8" />
+                <span className="font-bold text-xl text-black">{username}</span>
+              </>
             )}
           </div>
         </div>
