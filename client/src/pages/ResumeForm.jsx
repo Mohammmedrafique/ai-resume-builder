@@ -619,7 +619,7 @@ const ResumeForm = () => {
         resume
       );
       toast.success("Resume saved successfully!");
-      navigate("/");
+      // navigate("/dashboard");
     } catch (error) {
       toast.error("Failed to save resume!");
     }
@@ -633,19 +633,19 @@ const ResumeForm = () => {
       );
       const suggestions = response.data.suggestions;
 
-      // Update the first work experience description with the first suggestion
+   
       setResume((prevResume) => ({
         ...prevResume,
         workExperience: prevResume.workExperience.map((exp, index) => {
           if (index === 0) {
-            // Update the first work experience for example
+        
             return { ...exp, description: suggestions[0] || exp.description };
           }
           return exp;
         }),
       }));
 
-      // Optionally, store all suggestions for other uses
+    
       setSuggestions(suggestions);
     } catch (error) {
       console.error("Failed to generate suggestions:", error);

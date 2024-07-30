@@ -1,152 +1,173 @@
-const ResumePreview = ({ resume }) => {
-  // Function to generate a summary from work experience
-  const generateSummary = (workExperience) => {
-    if (workExperience.length === 0) return "No work experience provided.";
+import { useRef } from "react";
+import { jsPDF } from "jspdf";
 
-    const latestJob = workExperience[0];
-    return `Experienced ${latestJob.position} at ${
-      latestJob.company
-    }. Skilled in ${resume.skills.join(", ")}.`;
+const ResumeWithPDFDownload = ({ resume }) => {
+  const resumeRef = useRef(null);
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    doc.html(resumeRef.current, {
+      callback: function (doc) {
+        doc.save("resume.pdf");
+      },
+      x: 15,
+      y: 15,
+      width: 170, 
+      windowWidth: 650, 
+    });
   };
 
   return (
-    <div className="w-full max-w-full p-6 bg-white rounded-lg shadow-lg border border-gray-200">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Resume Preview</h2>
+    <div className="max-w-4xl mx-auto p-8">
+      <button
+        onClick={generatePDF}
+        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300"
+      >
+        Download Resume as PDF
+      </button>
 
-      {/* Personal Information */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">
+      <div
+        ref={resumeRef}
+        className="bg-white p-8 shadow-lg rounded-lg"
+        style={{ width: "650px" }}
+      >
+        <h1
+          style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10px" }}
+        >
           {resume.personalInfo.name}
-        </h3>
-        <p className="text-gray-600">
+        </h1>
+        <p style={{ fontSize: "14px", marginBottom: "5px" }}>
           {resume.personalInfo.email} | {resume.personalInfo.phone}
         </p>
-        <p className="text-gray-600">{resume.personalInfo.address}</p>
-        <p className="text-gray-600">
-          LinkedIn:{" "}
-          <a href={resume.personalInfo.linkedin} className="text-blue-600">
-            {resume.personalInfo.linkedin}
-          </a>
+        <p style={{ fontSize: "14px", marginBottom: "5px" }}>
+          {resume.personalInfo.address}
         </p>
-        <p className="text-gray-600">
-          Portfolio:{" "}
-          <a href={resume.personalInfo.portfolio} className="text-blue-600">
-            {resume.personalInfo.portfolio}
-          </a>
+        <p style={{ fontSize: "14px", marginBottom: "5px" }}>
+          LinkedIn: {resume.personalInfo.linkedin}
         </p>
-      </div>
+        <p style={{ fontSize: "14px", marginBottom: "15px" }}>
+          Portfolio: {resume.personalInfo.portfolio}
+        </p>
 
-      {/* Summary */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">Summary</h3>
-        <p className="text-gray-700">
-          {resume.summary || generateSummary(resume.workExperience)}
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          Summary
+        </h2>
+        <p style={{ fontSize: "14px", marginBottom: "15px" }}>
+          {resume.summary}
         </p>
-      </div>
 
-      {/* Work Experience */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
           Work Experience
-        </h3>
-        {resume.workExperience.length === 0 ? (
-          <p className="text-gray-600">No work experience provided.</p>
-        ) : (
-          resume.workExperience.map((exp, index) => (
-            <div
-              key={index}
-              className="mb-4 p-4 border border-gray-300 rounded"
-            >
-              <h4 className="text-xl font-semibold">
-                {exp.position} at {exp.company}
-              </h4>
-              <p className="text-gray-600">
-                {exp.startDate} - {exp.endDate}
-              </p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))
-        )}
-      </div>
+        </h2>
+        {resume.workExperience.map((exp, index) => (
+          <div key={index} style={{ marginBottom: "15px" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>
+              {exp.position} at {exp.company}
+            </h3>
+            <p style={{ fontSize: "14px" }}>
+              {exp.startDate} - {exp.endDate}
+            </p>
+            <p style={{ fontSize: "14px" }}>{exp.description}</p>
+          </div>
+        ))}
 
-      {/* Education */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">Education</h3>
-        {resume.education.length === 0 ? (
-          <p className="text-gray-600">No education information provided.</p>
-        ) : (
-          resume.education.map((edu, index) => (
-            <div
-              key={index}
-              className="mb-4 p-4 border border-gray-300 rounded"
-            >
-              <h4 className="text-xl font-semibold">
-                {edu.degree} from {edu.institution}
-              </h4>
-              <p className="text-gray-600">
-                {edu.startDate} - {edu.endDate}
-              </p>
-            </div>
-          ))
-        )}
-      </div>
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          Education
+        </h2>
+        {resume.education.map((edu, index) => (
+          <div key={index} style={{ marginBottom: "15px" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>
+              {edu.degree}
+            </h3>
+            <p style={{ fontSize: "14px" }}>
+              {edu.institution}, {edu.startDate} - {edu.endDate}
+            </p>
+          </div>
+        ))}
 
-      {/* Skills */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">Skills</h3>
-        {resume.skills.length === 0 ? (
-          <p className="text-gray-600">No skills provided.</p>
-        ) : (
-          <ul className="list-disc list-inside">
-            {resume.skills.map((skill, index) => (
-              <li key={index} className="text-gray-700">
-                {skill}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          Skills
+        </h2>
+        <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+          {resume.skills.map((skill, index) => (
+            <li key={index} style={{ fontSize: "14px" }}>
+              {skill}
+            </li>
+          ))}
+        </ul>
 
-      {/* Certifications */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">Certifications</h3>
-        {resume.certifications.length === 0 ? (
-          <p className="text-gray-600">No certifications provided.</p>
-        ) : (
-          resume.certifications.map((cert, index) => (
-            <div
-              key={index}
-              className="mb-4 p-4 border border-gray-300 rounded"
-            >
-              <h4 className="text-xl font-semibold">{cert.name}</h4>
-              <p className="text-gray-600">
-                {cert.organization} | {cert.date}
-              </p>
-            </div>
-          ))
-        )}
-      </div>
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          Certifications
+        </h2>
+        {resume.certifications.map((cert, index) => (
+          <div key={index} style={{ marginBottom: "15px" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>
+              {cert.name}
+            </h3>
+            <p style={{ fontSize: "14px" }}>
+              {cert.organization}, {cert.date}
+            </p>
+          </div>
+        ))}
 
-      {/* Projects */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-700">Projects</h3>
-        {resume.projects.length === 0 ? (
-          <p className="text-gray-600">No projects provided.</p>
-        ) : (
-          resume.projects.map((proj, index) => (
-            <div
-              key={index}
-              className="mb-4 p-4 border border-gray-300 rounded"
-            >
-              <h4 className="text-xl font-semibold">{proj.name}</h4>
-              <p className="text-gray-600">{proj.date}</p>
-              <p className="text-gray-700 mt-2">{proj.description}</p>
-            </div>
-          ))
-        )}
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginTop: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          Projects
+        </h2>
+        {resume.projects.map((project, index) => (
+          <div key={index} style={{ marginBottom: "15px" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>
+              {project.name}
+            </h3>
+            <p style={{ fontSize: "14px" }}>{project.date}</p>
+            <p style={{ fontSize: "14px" }}>{project.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default ResumePreview;
+export default ResumeWithPDFDownload;
