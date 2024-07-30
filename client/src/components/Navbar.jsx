@@ -99,7 +99,7 @@ export const Navbar = ({ toggleSidebar }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4 lg:space-x-6">
-            <Link to="/" className="flex items-center">
+            <Link to="/dashboard" className="flex items-center">
               <img src="aresume.gif" alt="Logo" className="w-24" />
               <span className="font-bold text-xl text-black hidden md:block">
                 𝓑𝓾𝓲𝓵𝓭𝓮𝓻
